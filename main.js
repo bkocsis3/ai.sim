@@ -79,6 +79,7 @@ function create() {
       world.plannedTPS = Simulation.plannedTPS;
       updateWorldStats();
       updatePlayerStats();
+      updateResourceStats();
     }
   });
 
@@ -113,9 +114,39 @@ function updateWorldStats() {
   document.getElementById("psTPSEff").textContent = eff.toFixed(0) + "%";
 }
 
+function updateResourceStats() {
+  const resource = world.resources.find(r => r.isResource);
+  document.getElementById("psResourceName").textContent = resource?.name ?? "-";
+  document.getElementById("psResourceHealth").textContent = resource?.health ?? "-";
+  document.getElementById("psResourceValue").textContent = resource?.value ?? "-";
+}
+
 function updatePlayerStats() {
   const player = world.agents.find(a => a.isPlayer);
-  if (!player) return;
+  if (!player) {
+    const fields = [
+      "psName",
+      "psAge",
+      "psHealth",
+      "psX",
+      "psY",
+      "psLevel",
+      "psXP",
+      "psNextLvlXP",
+      "psTotalXP",
+      "psAttack",
+      "psCharm",
+      "psIntelligence",
+      "psMaxHealth",
+      "psSpeed",
+      "psFood",
+      "psKills"
+    ];
+    fields.forEach(id => {
+      document.getElementById(id).textContent = "-";
+    });
+    return;
+  }
   document.getElementById("psName").textContent = player.name;
   document.getElementById("psAge").textContent = player.age;
   document.getElementById("psHealth").textContent = player.health;
@@ -157,28 +188,7 @@ function resetWorld(size, scene) {
     world.spawnAgent();
   }
   // reset HUD stats
-  const fields = [
-    "psName",
-    "psAge",
-    "psHealth",
-    "psX",
-    "psY",
-    "psLevel",
-    "psXP",
-    "psNextLvlXP",
-    "psTotalXP",
-    "psAttack",
-    "psCharm",
-    "psIntelligence",
-    "psMaxHealth",
-    "psSpeed",
-    "psFood",
-    "psKills"
-  ];
-
-  fields.forEach(id => {
-    document.getElementById(id).textContent = "-";
-  });
+  updatePlayerStats();
 
   world.draw();
 }

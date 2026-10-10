@@ -75,6 +75,27 @@ class World {
     const pos = this.randomEmptyTile();
     if (!pos) return;
     const resource = new Resource(pos.x, pos.y, "Resource_" + this.resourceCounter);
+
+    const boardSizePx = this.size * this.tileSize;
+    const canvasWidth = this.scene.game.config.width;
+    const canvasHeight = this.scene.game.config.height;
+    const offsetX = (canvasWidth - boardSizePx) / 2;
+    const offsetY = (canvasHeight - boardSizePx) / 2;
+    resource.hitbox = this.scene.add.rectangle(
+      offsetX + pos.x * this.tileSize,
+      offsetY + pos.y * this.tileSize,
+      this.tileSize,
+      this.tileSize,
+      0x000000,
+      0
+    )
+      .setOrigin(0)
+      .setInteractive()
+      .setDepth(9999);
+    resource.hitbox.on("pointerdown", () => {
+      this.setResource(resource);
+    });
+
     this.resources.push(resource);
     this.grid[pos.x][pos.y] = { type: "resource", ref: resource };
     this.resourceCounter += 1;
@@ -129,6 +150,7 @@ class World {
 
   removeResource(resource) {
     this.resources = this.resources.filter(r => r !== resource);
+    resource.hitbox?.destroy();
   }
 
   resolveCombat(attacker, defender) {
@@ -177,6 +199,15 @@ class World {
     }
   }
 
+  setResource(resource) {
+    // clear old resource
+    for (const r of this.resources) {
+      r.isResource = false;
+    }
+    // mark new resource
+    resource.isResource = true;
+  }
+
   setPlayer(agent) {
     // clear old player
     for (const a of this.agents) {
@@ -188,6 +219,7 @@ class World {
 
   killAgent(agent) {
     this.grid[agent.x][agent.y] = null;
+    agent.hitbox?.destroy();
     this.agents = this.agents.filter(a => a !== agent);
   }
 
