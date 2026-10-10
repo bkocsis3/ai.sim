@@ -203,23 +203,23 @@ class Agent {
         switch (roll) {
             case 1:
                 this.attack += 1; //working
-                console.log(`${this.name} leveled up attack`); // <<<<<<<<<<<
+                uiLog(`${this.name} leveled up attack`); // <<<<<<<<<<<
                 break;
             case 2:
                 this.maxHealth += 10; //working
-                console.log(`${this.name} leveled up max health`); // <<<<<<<<<<<
+                uiLog(`${this.name} leveled up max health`); // <<<<<<<<<<<
                 break;
             case 3:
                 this.intelligence += 1; //working
-                console.log(`${this.name} leveled up intelligence`); // <<<<<<<<<<<
+                uiLog(`${this.name} leveled up intelligence`); // <<<<<<<<<<<
                 break;
             case 4:
                 this.charm += 1; //working
-                console.log(`${this.name} leveled up charm`); // <<<<<<<<<<<
+                uiLog(`${this.name} leveled up charm`); // <<<<<<<<<<<
                 break;
             case 5:
                 this.speed = Math.round((this.speed + .5) * 10) / 10; //working, max is TPS
-                console.log(`${this.name} leveled up speed`); // <<<<<<<<<<<
+                uiLog(`${this.name} leveled up speed`); // <<<<<<<<<<<
                 break;
         }
     }

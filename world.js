@@ -138,29 +138,29 @@ class World {
       const roll = Math.random() * 100;
       if (charm > roll) { 
         attacker.charmTimer = 150;
-        console.log(`${defender.name} charmed ${attacker.name}`); // <<<<<<<<<<<
+        uiLog(`${defender.name} charmed ${attacker.name}`); // <<<<<<<<<<<
         return;
       }
     }
     // Defender takes damage equal to attacker's attack stat
     defender.health -= attacker.attack;
-    console.log(`${attacker.name} attacked ${defender.name}`); // <<<<<<<<<<<
+    uiLog(`${attacker.name} attacked ${defender.name}`); // <<<<<<<<<<<
     defender.hitTimer = 150;
     // If defender dies, attacker gets kill credit
     if (defender.health <= 0) {
         this.killAgent(defender);
         attacker.onKill(defender);
-        console.log(`${attacker.name} killed ${defender.name}`); // <<<<<<<<<<<
+        uiLog(`${attacker.name} killed ${defender.name}`); // <<<<<<<<<<<
         return;
     }
     // defender counter-attacks
     attacker.health -= defender.attack;
-    console.log(`${defender.name} hit back ${attacker.name}`); // <<<<<<<<<<<
+    uiLog(`${defender.name} hit back ${attacker.name}`); // <<<<<<<<<<<
     attacker.hitTimer = 150;
     if (attacker.health <= 0) {
         this.killAgent(attacker);
         defender.onKill(attacker);
-        console.log(`${attacker.name} killed ${defender.name}`); // <<<<<<<<<<<
+        uiLog(`${defender.name} killed ${attacker.name}`); // <<<<<<<<<<<
     }
   }
 
@@ -173,7 +173,7 @@ class World {
         agent.onResourceGathered(resource.value);
         this.removeResource(resource);
         this.grid[resource.x][resource.y] = null;
-        console.log(`${agent.name} harvested ${resource.name}`); // <<<<<<<<<<<
+        uiLog(`${agent.name} harvested ${resource.name}`); // <<<<<<<<<<<
     }
   }
 
@@ -184,7 +184,6 @@ class World {
     }
     // mark new player
     agent.isPlayer = true;
-    console.log("Player selected:", agent.name);
   }
 
   killAgent(agent) {

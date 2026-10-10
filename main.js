@@ -8,6 +8,22 @@ const Simulation = {
     plannedTPS: 0
 };
 
+function uiLog(msg) {
+    console.log(msg);
+    const box = document.getElementById("logbox");
+    if (!box) return;
+    const line = document.createElement("div");
+    line.textContent = msg;
+    box.appendChild(line);
+    // auto-scroll to bottom
+    box.scrollTop = box.scrollHeight;
+}
+
+function clearLogs() {
+    const box = document.getElementById("logbox");
+    if (box) box.innerHTML = "";
+}
+
 window.addEventListener("load", () => {
   // phaser game configs
   const config = {
@@ -124,6 +140,7 @@ function updatePlayerStats() {
 
 function resetWorld(size, scene) {
   console.clear();
+  clearLogs();
   const s = scene || window.currentScene;
   world = new World(size, s);
   // spawn initial resources
