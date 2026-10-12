@@ -140,7 +140,6 @@ class World {
     } 
         // harvest
     else if (cell.type === "resource") {
-        //return;
         this.resolveHarvest(agent, cell.ref);
     } 
         // attack
