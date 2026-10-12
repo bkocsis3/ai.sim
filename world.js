@@ -5,11 +5,11 @@ class World {
     this.tileSize = 16;
 
     this.grid = [];
-    this.agents = [];
+    this.players = [];
     this.resources = [];
     this.obstacles = [];
 
-    this.agentCounter = 1;
+    this.playerCounter = 1;
     this.resourceCounter = 1;
 
     this.initGrid();
@@ -33,11 +33,11 @@ class World {
     return this.inBounds(x, y) && this.grid[x][y] == null;
   }
 
-  spawnAgent() {
+  spawnPlayer() {
     const pos = this.randomEmptyTile();
     if (!pos) return;
 
-    const agent = new Agent("Agent_" + this.agentCounter, pos.x, pos.y);
+    const player = new Player("Player_" + this.playerCounter, pos.x, pos.y);
 
     // Calculate offsets (same as draw())
     const boardSizePx = this.size * this.tileSize;
@@ -48,7 +48,7 @@ class World {
     // Correct hitbox position
     const px = offsetX + pos.x * this.tileSize;
     const py = offsetY + pos.y * this.tileSize;
-    agent.hitbox = this.scene.add.rectangle(
+    player.hitbox = this.scene.add.rectangle(
         px,
         py,
         this.tileSize,
@@ -60,15 +60,15 @@ class World {
     .setInteractive()
     .setDepth(9999); // <-- IMPORTANT: above graphics
 
-    agent.hitbox.on("pointerdown", () => {
-        this.setPlayer(agent);
+    player.hitbox.on("pointerdown", () => {
+        this.setPlayer(player);
     });
 
-    this.agents.push(agent);
-    this.grid[pos.x][pos.y] = { type: "agent", ref: agent };
+    this.players.push(player);
+    this.grid[pos.x][pos.y] = { type: "player", ref: player };
 
-    this.agentCounter++;
-    return agent;
+    this.playerCounter++;
+    return player;
 }
 
   spawnResource() {
@@ -119,7 +119,7 @@ class World {
     return null;
   }
 
-  tryMoveAgent(agent, newX, newY) {
+  tryMovePlayer(player, newX, newY) {
     if (!this.inBounds(newX, newY)) return;
     // Recalculate offsets (same as draw())
     const boardSizePx = this.size * this.tileSize;
@@ -131,20 +131,20 @@ class World {
 
     if (!cell) {
         // move
-        this.grid[agent.x][agent.y] = null;
-        agent.x = newX;
-        agent.y = newY;
-        agent.hitbox.x = offsetX + newX * this.tileSize;
-        agent.hitbox.y = offsetY + newY * this.tileSize;
-        this.grid[newX][newY] = { type: "agent", ref: agent };
+        this.grid[player.x][player.y] = null;
+        player.x = newX;
+        player.y = newY;
+        player.hitbox.x = offsetX + newX * this.tileSize;
+        player.hitbox.y = offsetY + newY * this.tileSize;
+        this.grid[newX][newY] = { type: "player", ref: player };
     } 
         // harvest
     else if (cell.type === "resource") {
-        this.resolveHarvest(agent, cell.ref);
+        this.resolveHarvest(player, cell.ref);
     } 
         // attack
-    else if (cell.type === "agent") {
-        this.resolveCombat(agent, cell.ref);
+    else if (cell.type === "player") {
+        this.resolveCombat(player, cell.ref);
     }
 }
 
@@ -170,7 +170,7 @@ class World {
     defender.hitTimer = 150;
     // If defender dies, attacker gets kill credit
     if (defender.health <= 0) {
-        this.killAgent(defender);
+        this.killPlayer(defender);
         attacker.onKill(defender);
         uiLog(`${attacker.name} killed ${defender.name}`); // <<<<<<<<<<<
         return;
@@ -180,22 +180,22 @@ class World {
     uiLog(`${defender.name} hit back ${attacker.name}`); // <<<<<<<<<<<
     attacker.hitTimer = 150;
     if (attacker.health <= 0) {
-        this.killAgent(attacker);
+        this.killPlayer(attacker);
         defender.onKill(attacker);
         uiLog(`${defender.name} killed ${attacker.name}`); // <<<<<<<<<<<
     }
   }
 
-  resolveHarvest(agent, resource) {
-    // agent hits the resource
-    resource.health -= agent.attack;
+  resolveHarvest(player, resource) {
+    // player hits the resource
+    resource.health -= player.attack;
     resource.hitTimer = 150;
     // if resource is destroyed
     if (resource.health <= 0) {
-        agent.onResourceGathered(resource.value);
+        player.onResourceGathered(resource.value);
         this.removeResource(resource);
         this.grid[resource.x][resource.y] = null;
-        uiLog(`${agent.name} harvested ${resource.name}`); // <<<<<<<<<<<
+        uiLog(`${player.name} harvested ${resource.name}`); // <<<<<<<<<<<
     }
   }
 
@@ -208,35 +208,35 @@ class World {
     resource.isResource = true;
   }
 
-  setPlayer(agent) {
+  setPlayer(player) {
     // clear old player
-    for (const a of this.agents) {
+    for (const a of this.players) {
       a.isPlayer = false;
-      if (a.name !== "AI") {
+      if (a.name.startsWith("Player")) {
         a.baseColor = "brown";
         a.flashColor = "orange";
       }
     }
     // mark new player
-    agent.isPlayer = true;
-    if (agent.name !== "AI") {
-      agent.baseColor = "blue";
-      agent.flashColor = "cyan";
+    player.isPlayer = true;
+    if (player.name.startsWith("Player")) {
+      player.baseColor = "blue";
+      player.flashColor = "cyan";
     }
   }
 
-  killAgent(agent) {
-    this.grid[agent.x][agent.y] = null;
-    agent.hitbox?.destroy();
-    this.agents = this.agents.filter(a => a !== agent);
+  killPlayer(player) {
+    this.grid[player.x][player.y] = null;
+    player.hitbox?.destroy();
+    this.players = this.players.filter(a => a !== player);
   }
 
-  findNearestResource(agent) {
+  findNearestResource(player) {
     if (this.resources.length === 0) return null;
     let best = null;
     let bestDist = Infinity;
     for (const r of this.resources) {
-      const d = Math.abs(r.x - agent.x) + Math.abs(r.y - agent.y);
+      const d = Math.abs(r.x - player.x) + Math.abs(r.y - player.y);
       if (d < bestDist) {
         bestDist = d;
         best = r;
@@ -245,12 +245,12 @@ class World {
     return best;
   }
 
-  findNearestEnemy(agent) {
+  findNearestEnemy(player) {
     let best = null;
     let bestDist = Infinity;
-    for (const a of this.agents) {
-      if (a === agent) continue;
-      const d = Math.abs(a.x - agent.x) + Math.abs(a.y - agent.y);
+    for (const a of this.players) {
+      if (a === player) continue;
+      const d = Math.abs(a.x - player.x) + Math.abs(a.y - player.y);
       if (d < bestDist) {
         bestDist = d;
         best = a;
@@ -282,9 +282,9 @@ class World {
     this.deltaTime = now - (this.lastTickTime || now);
     this.lastTickTime = now;
 
-    const agentsSnapshot = [...this.agents];
-    for (const agent of agentsSnapshot) {
-      agent.tick(this);
+    const playersSnapshot = [...this.players];
+    for (const player of playersSnapshot) {
+      player.tick(this);
     }
 
     const resourcesSnapshot = [...this.resources];
@@ -346,8 +346,8 @@ class World {
         gfx.fillRect(px, py, this.tileSize, this.tileSize);
     }
 
-    // draw agents
-    for (const a of this.agents) {
+    // draw players
+    for (const a of this.players) {
         const px = offsetX + a.x * this.tileSize;
         const py = offsetY + a.y * this.tileSize;
         if (a.charmTimer > 0) {

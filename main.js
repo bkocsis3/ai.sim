@@ -47,8 +47,8 @@ window.addEventListener("load", () => {
     const size = parseInt(document.getElementById("worldSize").value, 10);
     resetWorld(size, window.currentScene);
   };
-  document.getElementById("spawnAgent").onclick = () => {
-    const agent = world.spawnAgent();
+  document.getElementById("spawnPlayer").onclick = () => {
+    const player = world.spawnPlayer();
   };
   document.getElementById("spawnResource").onclick = () => {
     world.spawnResource();
@@ -122,7 +122,7 @@ function updateResourceStats() {
 }
 
 function updatePlayerStats() {
-  const player = world.agents.find(a => a.isPlayer);
+  const player = world.players.find(a => a.isPlayer);
   if (!player) {
     const fields = [
       "psName",
@@ -182,10 +182,10 @@ function resetWorld(size, scene) {
   for (let i = 0; i < size * 2; i++) {
     world.spawnObstacle();
   }
-  // spawn initial agents
-  const startCount = parseInt(document.getElementById("startAgents").value, 10);
+  // spawn initial players
+  const startCount = parseInt(document.getElementById("startPlayers").value, 10);
   for (let i = 0; i < startCount; i++) {
-    world.spawnAgent();
+    world.spawnPlayer();
   }
   // reset HUD stats
   updatePlayerStats();
