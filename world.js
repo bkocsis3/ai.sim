@@ -140,7 +140,7 @@ class World {
     } 
         // harvest
     else if (cell.type === "resource") {
-        return;
+        this.resolveHarvest(agent, cell.ref);
     } 
         // attack
     else if (cell.type === "agent") {
@@ -212,9 +212,17 @@ class World {
     // clear old player
     for (const a of this.agents) {
       a.isPlayer = false;
+      if (a.name !== "AI") {
+        a.baseColor = "brown";
+        a.flashColor = "orange";
+      }
     }
     // mark new player
     agent.isPlayer = true;
+    if (agent.name !== "AI") {
+      agent.baseColor = "blue";
+      agent.flashColor = "cyan";
+    }
   }
 
   killAgent(agent) {
@@ -223,12 +231,12 @@ class World {
     this.agents = this.agents.filter(a => a !== agent);
   }
 
-  findNearestResource(x, y) {
+  findNearestResource(agent) {
     if (this.resources.length === 0) return null;
     let best = null;
     let bestDist = Infinity;
     for (const r of this.resources) {
-      const d = Math.abs(r.x - x) + Math.abs(r.y - y);
+      const d = Math.abs(r.x - agent.x) + Math.abs(r.y - agent.y);
       if (d < bestDist) {
         bestDist = d;
         best = r;
@@ -345,18 +353,10 @@ class World {
         if (a.charmTimer > 0) {
           gfx.fillStyle(colorNameToHex("white"), 1); // charmed
         } else {
-          if (a.isPlayer) {
-              if (a.hitTimer > 0) {
-                  gfx.fillStyle(colorNameToHex("cyan"), 1); // dmged player
-              } else {
-                  gfx.fillStyle(colorNameToHex("blue"), 1); // normal player
-              }
+          if (a.hitTimer > 0) {
+            gfx.fillStyle(colorNameToHex(a.flashColor), 1); // dmged player
           } else {
-              if (a.hitTimer > 0) {
-                  gfx.fillStyle(colorNameToHex("orange"), 1); // dmged agent
-              } else {
-                  gfx.fillStyle(colorNameToHex("brown"), 1); // normal agent
-              }
+            gfx.fillStyle(colorNameToHex(a.baseColor), 1); // normal player
           }
         }
         gfx.fillCircle(
