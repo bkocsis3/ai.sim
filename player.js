@@ -1,4 +1,4 @@
-class Agent {
+class Player {
   constructor(name, x, y) {
     // basic info
     this.name = name;
@@ -15,7 +15,7 @@ class Agent {
     this.xp = 0;
     this.nextLevelXp = (this.level +1) * 10;
     this.totalXp = 0;
-    // agent stats
+    // player stats
     this.attack = 1;
     this.charm = 1;
     this.intelligence = 1;
@@ -54,7 +54,7 @@ class Agent {
     }
     // remove if killed
     if (this.health <= 0) {
-      world.killAgent(this);
+      world.killPlayer(this);
       return;
     }
     // movement based on speed
@@ -144,7 +144,7 @@ class Agent {
     // BFS returns full path; first step is the next tile
     const [next] = path;
     const [nx, ny] = next.split(",").map(Number);
-    world.tryMoveAgent(this, nx, ny);
+    world.tryMovePlayer(this, nx, ny);
   }
 
   wander(world) {
@@ -157,7 +157,7 @@ class Agent {
     const choice = dirs[Math.floor(Math.random() * dirs.length)];
     const newX = this.x + choice.dx;
     const newY = this.y + choice.dy;
-    world.tryMoveAgent(this, newX, newY);
+    world.tryMovePlayer(this, newX, newY);
   }
 
   onResourceGathered(value) {
