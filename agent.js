@@ -4,6 +4,9 @@ class Agent {
     this.name = name;
     this.age = 0;
     this.health = 20;
+    // color
+    this.baseColor = "brown";
+    this.flashColor = "orange";
     // position
     this.x = x;
     this.y = y;
@@ -35,7 +38,7 @@ class Agent {
 
   tick(world) {
     // eat if hungry
-    if (this.health < (this.maxHealth * .5) && this.food > 0) {this.eat(this.intelligence);}
+    if (this.health < (this.maxHealth * .5) && this.food > 0) {this.eat();}
     // level up if possible
     this.checkLevelUp(world);
     // run scheduled
@@ -58,27 +61,21 @@ class Agent {
     this.cooldown -= this.speed;
     if (this.cooldown <= 0) {
         this.cooldown = world.plannedTPS || 1; // reset based on TPS
-        // 1. Check for adjacent resource
-        const resource = world.getAdjacentResource(this.x, this.y);
-        if (resource) {
-            this.attackResource(world, resource);
-            return;
-        }
-        // 2. Seek nearest resource
-        const nearest = world.findNearestResource(this.x, this.y);
+        // 1. Seek nearest resource
+        const nearest = world.findNearestResource(this);
         if (nearest) {
-            this.moveTowardResource(world, nearest.x, nearest.y);
+            this.moveToward(world, nearest.x, nearest.y);
             return;
         }
-        // 3. If starving and no resources, hunt nearest enemy
+        // 2. If starving and no resources, hunt nearest enemy
         if (this.food <= 0 && world.resources.length === 0) {
             const enemy = world.findNearestEnemy(this);
             if (enemy) {
-                this.moveTowardResource(world, enemy.x, enemy.y);
+                this.moveToward(world, enemy.x, enemy.y);
                 return;
             }
         }
-        // 4. Wander
+        // 3. Wander
         this.wander(world);
     }
   }
@@ -93,10 +90,6 @@ class Agent {
 
   every(interval, fn) {
     this.scheduledTasks.push({ interval, fn });
-  }
-
-  attackResource(world, resource) {
-    world.resolveHarvest(this, resource);
   }
 
   findPath(world, startX, startY, targetX, targetY) {
@@ -141,7 +134,7 @@ class Agent {
     return null; // no path found
   }
 
-  moveTowardResource(world, tx, ty) {
+  moveToward(world, tx, ty) {
     const path = this.findPath(world, this.x, this.y, tx, ty);
     if (!path || path.length === 0) {
         // No path found → fallback to wander
@@ -181,9 +174,9 @@ class Agent {
     this.totalXp += killed.totalXp
   }
 
-  eat(value) {
+  eat() {
     this.food -= 1;
-    this.health = Math.min(this.maxHealth, (this.health + value));
+    this.health = Math.min(this.maxHealth, (this.health + this.intelligence));
   }
 
   checkLevelUp(world) {
