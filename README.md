@@ -1,0 +1,65 @@
+# AI Sim Game
+
+A lightweight browser-based simulation game built with HTML, JavaScript, and Phaser. The world contains players, resources, and obstacles, with agents gathering resources, fighting, leveling up, and evolving over time.
+
+This project is the hosted simulation frontend for the AI simulation repository and is intended to be used alongside the agent project at https://github.com/bkocsis3/ai.sim.agent.
+
+## Hosted from This Repo
+
+This repository is the primary host for the live simulation experience. The game is designed to run as a web-based sandbox where the world state and entity logic are visible and adjustable in the browser.
+
+## Intended Integration
+
+This build was created to be used with https://github.com/bkocsis3/ai.sim.agent. In practice, the agent project provides the AI/player logic and external control layer, while this repo hosts the simulation environment and UI that visualize the world and its state.
+
+## Features
+
+- Procedural world generation with a grid-based map
+- Player agents that seek resources, wander, fight, and level up
+- Resource nodes that can be harvested
+- Obstacle placement and world reset controls
+- HUD panels for game performance, player stats, and resource stats
+- Simulation loop with pause/resume functionality
+
+## Project Structure
+
+- `index.html` – page layout and HUD panels
+- `main.js` – game bootstrap, simulation loop, and world reset logic
+- `world.js` – grid management, spawning, combat, harvesting, and world state
+- `player.js` – AI behavior, movement, scheduling, and leveling logic
+- `resource.js` – resource data and tick behavior
+
+## Running the Game
+
+Because the project uses Phaser from a CDN, it is best to serve it through a local web server.
+
+### Option 1: Python
+
+```bash
+cd ai.sim.game
+python -m http.server 8000
+```
+
+Then open:
+
+```text
+http://localhost:8000
+```
+
+### Option 2: Open directly
+
+You can also open `index.html` in a browser, but a local web server is recommended for consistent behavior.
+
+## Controls
+
+- World size: choose the map dimensions
+- Starting players: set the initial number of AI agents
+- Reset World: rebuild the simulation
+- Spawn Player / Spawn Resource / Spawn Obstacle: add entities to the current world
+- Pause / Resume: control the simulation loop
+
+## Notes
+
+- The simulation is designed as a prototype/experiment rather than a polished game.
+- The visuals and behavior are intentionally simple so the underlying AI logic is easy to extend.
+- If you want to tune agent behavior, the main logic is in `player.js` and `world.js`.
