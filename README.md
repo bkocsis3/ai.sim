@@ -2,15 +2,13 @@
 
 A lightweight browser-based simulation game built with HTML, JavaScript, and Phaser. The world contains players, resources, and obstacles, with agents gathering resources, fighting, leveling up, and evolving over time.
 
-This project is the hosted simulation frontend for the AI simulation repository and is intended to be used alongside the agent project at https://github.com/bkocsis3/ai.sim.agent.
-
 ## Hosted from This Repo
 
 This repository is the primary host for the live simulation experience. The game is designed to run as a web-based sandbox where the world state and entity logic are visible and adjustable in the browser.
 
 ## Intended Integration
 
-This build was created to be used with https://github.com/bkocsis3/ai.sim.agent. In practice, the agent project provides the AI/player logic and external control layer, while this repo hosts the simulation environment and UI that visualize the world and its state.
+This build was created to be used with https://github.com/bkocsis3/ai.sim.agent. In practice, ai.sim.agent provides the AI/player logic and external control layer, while this repo hosts the simulation environment and UI that visualize the world and its state.
 
 ## Features
 
@@ -20,6 +18,7 @@ This build was created to be used with https://github.com/bkocsis3/ai.sim.agent.
 - Obstacle placement and world reset controls
 - HUD panels for game performance, player stats, and resource stats
 - Simulation loop with pause/resume functionality
+- Log box for greater observability
 
 ## Project Structure
 
@@ -31,24 +30,13 @@ This build was created to be used with https://github.com/bkocsis3/ai.sim.agent.
 
 ## Running the Game
 
-Because the project uses Phaser from a CDN, it is best to serve it through a local web server.
-
 ### Option 1: Python
 
-```bash
-cd ai.sim.game
-python -m http.server 8000
-```
-
-Then open:
-
-```text
-http://localhost:8000
-```
+Open bkocsis3.github.io/ai.sim.game/ in a browser.
 
 ### Option 2: Open directly
 
-You can also open `index.html` in a browser, but a local web server is recommended for consistent behavior.
+You can also open `index.html` in a browser.
 
 ## Controls
 
