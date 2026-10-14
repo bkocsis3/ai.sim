@@ -1,6 +1,6 @@
 # AI Sim Game
 
-A lightweight browser-based simulation game built with HTML, JavaScript, and Phaser. The world contains players, resources, and obstacles, with agents gathering resources, fighting, leveling up, and evolving over time.
+A lightweight browser-based simulation game built with HTML, JavaScript, and Phaser. The world contains NPC players, resources, and obstacles while the NPCs' goals include gathering resources, fighting, leveling up, and living as long as possible.
 
 ## Hosted from This Repo
 
@@ -8,7 +8,7 @@ This repo is the primary host for the game. It is designed to run as a web-based
 
 ## Intended Integration
 
-This game was built to be used in conjunction with https://github.com/bkocsis3/ai.sim.agent. ai.sim.agent provides the AI injection, game controller, and AI agent.
+This game was built to be used in conjunction with https://github.com/bkocsis3/ai.sim.agent. ai.sim.agent provides AI injection, the AI agent, and a game controller.
 
 ## Features
 
@@ -32,11 +32,11 @@ This game was built to be used in conjunction with https://github.com/bkocsis3/a
 
 ### Option 1:
 
-Open bkocsis3.github.io/ai.sim.game/ in a browser.
+Open bkocsis3.github.io/ai.sim.game/ from a browser.
 
 ### Option 2:
 
-Clone and open `index.html` in a browser.
+Clone and open `index.html`.
 
 ## Controls
 
