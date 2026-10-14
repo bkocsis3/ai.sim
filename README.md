@@ -8,7 +8,7 @@ This repo is the primary host for the game. It is designed to run as a web-based
 
 ## Intended Integration
 
-This game was built to be used in conjunction with https://github.com/bkocsis3/ai.sim.agent. ai.sim.agent provides the AI/player logic and external control layer.
+This game was built to be used in conjunction with https://github.com/bkocsis3/ai.sim.agent. ai.sim.agent provides the AI injection, game controller, and AI agent.
 
 ## Features
 
