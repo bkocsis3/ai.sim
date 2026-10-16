@@ -54,7 +54,7 @@ Open bkocsis3.github.io/ai.sim.lab/ from a browser.
 
 ### Option 2:
 
-Clone the repository and open `src/index.html`.
+Clone the repository and open `index.html`.
 
 ## Controls
 
