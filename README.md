@@ -2,7 +2,7 @@
 
 A lightweight browser-based simulation built with HTML, JavaScript, and Phaser. The world contains resources,  obstacles, and NPC players whose goals are to gather resources, fight, level up, and live as long as possible. 
 
-The primary objective is to host an environment where AI agents and their configurations (prompts, tools, memory, models, etc) can be tested and observed.
+The primary goal for this project is to host an environment where AI agents and their configurations (prompts, tools, memory, models, etc) can be tested and observed.
 
 ## Screenshot
 From the lab:
