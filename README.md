@@ -33,19 +33,18 @@ The lab is be used in conjunction with https://github.com/bkocsis3/ai.sim.agent 
 .
 ├── screenshots/
 │   └── lab.png
-└── src/
-	├── index.html
-	├── main.js
-	├── world.js
-	├── player.js
-	└── resource.js
+index.html
+main.js
+world.js
+player.js
+resource.js
 ```
 
-- `src/index.html` – page layout and HUD panels
-- `src/main.js` – game bootstrap, simulation loop, and world reset logic
-- `src/world.js` – grid management, spawning, combat, harvesting, and world state
-- `src/player.js` – AI behavior, movement, scheduling, and leveling logic
-- `src/resource.js` – resource data and tick behavior
+- `index.html` – page layout and HUD panels
+- `main.js` – game bootstrap, simulation loop, and world reset logic
+- `world.js` – grid management, spawning, combat, harvesting, and world state
+- `player.js` – AI behavior, movement, scheduling, and leveling logic
+- `resource.js` – resource data and tick behavior
 
 ## Running the Simulation
 
