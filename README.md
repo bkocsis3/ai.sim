@@ -1,14 +1,21 @@
-# AI Sim Game
+# AI Simulation Lab
 
-A lightweight browser-based simulation game built with HTML, JavaScript, and Phaser. The world contains NPC players, resources, and obstacles while the NPCs' goals include gathering resources, fighting, leveling up, and living as long as possible.
+A lightweight browser-based simulation built with HTML, JavaScript, and Phaser. The world contains resources,  obstacles, and NPC players whose goals are to gather resources, fight, level up, and live as long as possible. 
+
+The primary objective is to host an environment where AI agents and their configurations (prompts, tools, memory, models, etc) can be tested and observed.
+
+## Screenshot
+From the lab:
+
+![Lab](/screenshots/lab.png)
 
 ## Hosted from This Repo
 
-This repo is the primary host for the game. It is designed to run as a web-based sandbox with the game logic exposed and adjustable from the browser.
+This repo is the primary host for the lab. It is designed to run as a web-based sandbox with the logic exposed and adjustable from the browser.
 
 ## Intended Integration
 
-This game was built to be used in conjunction with https://github.com/bkocsis3/ai.sim.agent. ai.sim.agent provides AI injection, the AI agent, and a game controller.
+The lab is be used in conjunction with https://github.com/bkocsis3/ai.sim.agent which provides the AI agent and controller for injection/integration.
 
 ## Features
 
@@ -22,21 +29,33 @@ This game was built to be used in conjunction with https://github.com/bkocsis3/a
 
 ## Project Structure
 
-- `index.html` – page layout and HUD panels
-- `main.js` – game bootstrap, simulation loop, and world reset logic
-- `world.js` – grid management, spawning, combat, harvesting, and world state
-- `player.js` – AI behavior, movement, scheduling, and leveling logic
-- `resource.js` – resource data and tick behavior
+```text
+.
+├── screenshots/
+│   └── lab.png
+└── src/
+	├── index.html
+	├── main.js
+	├── world.js
+	├── player.js
+	└── resource.js
+```
 
-## Running the Game
+- `src/index.html` – page layout and HUD panels
+- `src/main.js` – game bootstrap, simulation loop, and world reset logic
+- `src/world.js` – grid management, spawning, combat, harvesting, and world state
+- `src/player.js` – AI behavior, movement, scheduling, and leveling logic
+- `src/resource.js` – resource data and tick behavior
+
+## Running the Simulation
 
 ### Option 1:
 
-Open bkocsis3.github.io/ai.sim.game/ from a browser.
+Open bkocsis3.github.io/ai.sim.lab/ from a browser.
 
 ### Option 2:
 
-Clone and open `index.html`.
+Clone the repository and open `src/index.html`.
 
 ## Controls
 
@@ -48,6 +67,5 @@ Clone and open `index.html`.
 
 ## Notes
 
-- The simulation is designed as a prototype/experiment rather than a polished game.
 - The visuals and behavior are intentionally simple so the underlying AI logic is easy to extend.
-- If you want to tune the NPC behavior, the main logic is in `player.js` and `world.js`.
+- If you want to tune the NPC behavior, the main logic is in `src/player.js` and `src/world.js`.
